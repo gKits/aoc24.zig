@@ -29,7 +29,7 @@ fn readInput() !struct { left: [1000]i32, right: [1000]i32 } {
     return .{ .left = left, .right = right };
 }
 
-test "day1: part1" {
+pub fn part1() !i32 {
     var input = try readInput();
     std.mem.sort(i32, &input.left, {}, comptime std.sort.asc(i32));
     std.mem.sort(i32, &input.right, {}, comptime std.sort.asc(i32));
@@ -40,10 +40,10 @@ test "day1: part1" {
         diff += utils.abs(input.left[i] - input.right[i]);
     }
 
-    std.debug.print(" res: {d} ", .{diff});
+    return diff;
 }
 
-test "day1: part2" {
+pub fn part2() !i32 {
     const input = try readInput();
 
     const alloc = std.heap.page_allocator;
@@ -64,5 +64,5 @@ test "day1: part2" {
         sim += input.left[i] * n;
     }
 
-    std.debug.print(" res: {d} ", .{sim});
+    return sim;
 }

@@ -26,7 +26,7 @@ fn lineIsSafe(line: []const u8) !bool {
     return true;
 }
 
-test "day2: part1" {
+pub fn part1() !u16 {
     const file = try std.fs.cwd().openFile("src/day2_input", .{});
     defer file.close();
 
@@ -40,5 +40,5 @@ test "day2: part1" {
         }
     }
 
-    std.debug.print(" res: {d} ", .{count});
+    return count;
 }
