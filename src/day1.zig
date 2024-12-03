@@ -1,9 +1,7 @@
 const std = @import("std");
 const utils = @import("utils.zig");
 
-const expect = std.testing.expect;
-
-fn day1ParseLine(line: []const u8) !struct { left: i32, right: i32 } {
+fn parseLine(line: []const u8) !struct { left: i32, right: i32 } {
     var iter = std.mem.window(u8, line, 5, 8);
 
     const left = try std.fmt.parseInt(i32, iter.next().?, 10);
@@ -12,7 +10,7 @@ fn day1ParseLine(line: []const u8) !struct { left: i32, right: i32 } {
     return .{ .left = left, .right = right };
 }
 
-fn day1ReadInput() !struct { left: [1000]i32, right: [1000]i32 } {
+fn readInput() !struct { left: [1000]i32, right: [1000]i32 } {
     const file = try std.fs.cwd().openFile("src/day1_input", .{});
     defer file.close();
 
@@ -23,7 +21,7 @@ fn day1ReadInput() !struct { left: [1000]i32, right: [1000]i32 } {
     while (i < 1000) : (i += 1) {
         var buf: [14]u8 = undefined;
         const line = (try utils.nextLine(file.reader(), &buf)).?;
-        const parsed = try day1ParseLine(line);
+        const parsed = try parseLine(line);
         left[i] = parsed.left;
         right[i] = parsed.right;
     }
@@ -32,7 +30,7 @@ fn day1ReadInput() !struct { left: [1000]i32, right: [1000]i32 } {
 }
 
 test "day1: part1" {
-    var input = try day1ReadInput();
+    var input = try readInput();
     std.mem.sort(i32, &input.left, {}, comptime std.sort.asc(i32));
     std.mem.sort(i32, &input.right, {}, comptime std.sort.asc(i32));
 
@@ -46,7 +44,7 @@ test "day1: part1" {
 }
 
 test "day1: part2" {
-    const input = try day1ReadInput();
+    const input = try readInput();
 
     const alloc = std.heap.page_allocator;
 
